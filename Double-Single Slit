@@ -67,6 +67,5 @@ print('covariance matrix')
 print(cov_minima1)
 sig_2 = sp.sqrt(cov_minima2[0,0]) 
 sig_3 = sp.sqrt(cov_minima2[1,1]) 
-
 print('Slope = %.3e +/- %.3e' %(fit_minima2[0],sig_2))
 print('Intercept = %.3e +/- %.3e' %(fit_minima2[1],sig_3))
