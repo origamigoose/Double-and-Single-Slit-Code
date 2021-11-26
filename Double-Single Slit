@@ -1,0 +1,72 @@
+
+#The following code is a modified version of the code found in sessions 1 and 2 of the computing labs. I have not copied it over directly however - I have written my own code to add to and change the code to suit my needs.
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy as sp
+m1 = np.array([-1,0,1,2])
+m2 = np.array([0.5, 1.5, 2.5, 3.5 ,4.5, 5.5 ,6.5, 7.5, -1.5, -2.5, -3.5 , -4.5, -5.5, -6.5])
+minima1 = np.array([-7.085, 0, 5.785, 9.945])
+minima2 = np.array([0, 0.96, 2.96, 4.94, 7.59, 9.10, 11.12, 13.07, -1.02, -3, -5.02, -6.97, -8.751, -10.749])
+params = {
+   'axes.labelsize': 18,
+   'font.size': 18,
+   'font.family': 'sans-serif', 
+   'font.serif': 'Arial', 
+   'legend.fontsize': 18,
+   'xtick.labelsize': 16,
+   'ytick.labelsize': 16, 
+} 
+
+plt.xlabel("Order of minima (no units)")
+plt.ylabel("Distance of minima from central maximum (m)")
+print('Fit polynomial')
+plt.grid()
+plt.title("Single Slit Diffraction") 
+errors_minima1 = np.array([0.001,0.001,0.001,0.001])
+plt.errorbar(m1,minima1,xerr=errors_minima1,fmt='o', mew=2, ms=3, capsize=10)
+
+fit_minima1,cov_minima1 = sp.polyfit(m1,minima1,1,cov=True)
+pminima1=sp.poly1d(fit_minima1)
+plt.plot(m1,pminima1(m1))
+print('single slit coefficients')
+print(fit_minima1)
+print('covariance matrix')
+print(cov_minima1)
+sig_0 = sp.sqrt(cov_minima1[0,0]) 
+sig_1 = sp.sqrt(cov_minima1[1,1]) 
+
+print('Slope = %.3e +/- %.3e' %(fit_minima1[0],sig_0))
+print('Intercept = %.3e +/- %.3e' %(fit_minima1[1],sig_1))
+#%%
+params = {
+   'axes.labelsize': 18,
+   'font.size': 18,
+   'font.family': 'sans-serif', 
+   'font.serif': 'Arial', 
+   'legend.fontsize': 18,
+   'xtick.labelsize': 16,
+   'ytick.labelsize': 16, 
+} 
+
+plt.xlabel("Order of minima (no units)")
+plt.ylabel("Distance of minima from central maximum (m)")
+print('Fit polynomial')
+plt.grid()
+plt.title("Double Slit Diffraction") 
+errors_minima2 = np.array([0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001])
+plt.errorbar(m2,minima2, xerr=errors_minima2, fmt='o', mew=2, ms=3, capsize=10)
+
+
+
+fit_minima2,cov_minima2 = sp.polyfit(m2,minima2,1,cov=True)
+pminima1=sp.poly1d(fit_minima2)
+plt.plot(m2,pminima1(m2))
+print('double slit coefficients')
+print(fit_minima2)
+print('covariance matrix')
+print(cov_minima1)
+sig_2 = sp.sqrt(cov_minima2[0,0]) 
+sig_3 = sp.sqrt(cov_minima2[1,1]) 
+
+print('Slope = %.3e +/- %.3e' %(fit_minima2[0],sig_2))
+print('Intercept = %.3e +/- %.3e' %(fit_minima2[1],sig_3))
