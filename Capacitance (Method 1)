@@ -1,0 +1,60 @@
+#This code was written in collaboration with my lab partner Muhammed (Yusuf) Islam (This disclaimer does not include the section at the bottom which has been referenced with a link)
+import numpy as np
+import matplotlib.pyplot as plt
+Method_1_Data = np.loadtxt(r"C:/Users/Richard/Documents/Practical Physics/Experiments/WFM01.CSV", delimiter=",", skiprows=1)
+Method_2_Data = np.loadtxt(r"C:/Users/Richard/Documents/Practical Physics/Experiments/WFM02.CSV", delimiter=",", skiprows=1)
+Augdata = np.loadtxt(r"C:/Users/Richard/Documents/Practical Physics/Experiments/dataset2.CSV", delimiter=",", skiprows=1)
+for i in range(len(Method_1_Data)):
+    Method_1_Data[i,0] = Method_1_Data[i,0] + 60
+for i in range(len(Augdata)):
+    Augdata[i,0] = Augdata[i,0] + 0.0075
+
+#%%
+#x = Method_1_Data[:, 0].reshape(Method_1_Data.shape[0], 1)
+#X = np.append(x, np.ones((Method_1_Data.shape[0], 1)), axis=1)
+#y = Method_1_Data[:, 1].reshape(Method_1_Data.shape[0], 1)
+#theta = np.linalg.inv(X.T.dot(X)).dot(X.T).dot(y)
+
+#%%
+Method_1_Data[:,1] = np.log(Method_1_Data[:,1])
+Method1_Fit, Method1_Cov = np.polyfit(Method_1_Data[:,0], Method_1_Data[:,1],1,cov=True)
+Method1_Line = np.poly1d(Method1_Fit)
+plt.grid()
+plt.xlabel("Time (t)") 
+plt.ylabel("Ln(V)") 
+plt.title("Plot of Voltage Discharge of a Capacitor") 
+plt.plot(Method_1_Data[:,0], Method_1_Data[:,1])
+plt.plot(Method_1_Data[:,0], Method1_Line(Method_1_Data[:,0]))
+#y_line = X.dot(theta)
+#print(f'The parameters of the line: {theta}')
+
+plt.figure(2)
+plt.grid()
+plt.xlabel("Time (t)") 
+plt.ylabel("Ln(V)") 
+plt.title("Plot of Voltage Discharge of a Capacitor when subject to a 20kHz input wave") 
+plt.plot(Method_2_Data[:,0],Method_2_Data[:,1])
+Augdata[:,1] = np.log(Augdata[:,1])
+Augdata_Fit, Augdata_Cov = np.polyfit(Augdata[:,0], Augdata[:,1],1,cov=True)
+Augdata_Line = np.poly1d(Augdata_Fit)
+
+plt.plot(Augdata[:,0], Augdata[:,1])
+plt.plot(Augdata[:,0], Augdata_Line(Augdata[:,0]))
+
+
+#%% Note: The below code was taken from https://pythonguides.com/matplotlib-best-fit-line/
+#It was solely used to obtain the parameters of the straight line, not for actual plotting purposes. The plot used in the lab book is the one above.
+
+
+x = Method_1_Data[:, 0].reshape(Method_1_Data.shape[0], 1)
+X = np.append(x, np.ones((Method_1_Data.shape[0], 1)), axis=1)
+y = Method_1_Data[:, 1].reshape(Method_1_Data.shape[0], 1)
+theta = np.linalg.inv(X.T.dot(X)).dot(X.T).dot(y)
+print(f'The parameters of the line: {theta}')
+y_line = X.dot(theta)
+plt.scatter(x, y)
+plt.plot(x, y_line, 'r')
+plt.title('Best fit line using regression method')
+plt.xlabel('x-axis')
+plt.ylabel('y-axis')
+plt.show()
