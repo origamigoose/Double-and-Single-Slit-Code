@@ -22,19 +22,8 @@ plt.plot(Method_1_Data[:,0], Method1_Line(Method_1_Data[:,0]))
 #y_line = X.dot(theta)
 #print(f'The parameters of the line: {theta}')
 
-plt.figure(2)
-plt.grid()
-plt.xlabel("Time (t)") 
-plt.ylabel("Ln(V)") 
-plt.title("Plot of Voltage Discharge of a Capacitor when subject to a 20kHz input wave") 
-plt.plot(Method_2_Data[:,0],Method_2_Data[:,1])
-Augdata[:,1] = np.log(Augdata[:,1])
-Augdata_Fit, Augdata_Cov = np.polyfit(Augdata[:,0], Augdata[:,1],1,cov=True)
-Augdata_Line = np.poly1d(Augdata_Fit)
-
 plt.plot(Augdata[:,0], Augdata[:,1])
 plt.plot(Augdata[:,0], Augdata_Line(Augdata[:,0]))
-
 
 #%% Note: The below code was taken from https://pythonguides.com/matplotlib-best-fit-line/
 #It was solely used to obtain the parameters of the straight line, not for actual plotting purposes. The plot used in the lab book is the one above.
