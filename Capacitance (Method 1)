@@ -10,12 +10,6 @@ for i in range(len(Augdata)):
     Augdata[i,0] = Augdata[i,0] + 0.0075
 
 #%%
-#x = Method_1_Data[:, 0].reshape(Method_1_Data.shape[0], 1)
-#X = np.append(x, np.ones((Method_1_Data.shape[0], 1)), axis=1)
-#y = Method_1_Data[:, 1].reshape(Method_1_Data.shape[0], 1)
-#theta = np.linalg.inv(X.T.dot(X)).dot(X.T).dot(y)
-
-#%%
 Method_1_Data[:,1] = np.log(Method_1_Data[:,1])
 Method1_Fit, Method1_Cov = np.polyfit(Method_1_Data[:,0], Method_1_Data[:,1],1,cov=True)
 Method1_Line = np.poly1d(Method1_Fit)
