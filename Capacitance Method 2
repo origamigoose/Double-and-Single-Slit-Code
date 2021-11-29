@@ -1,0 +1,35 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy as sp
+augdata = np.loadtxt(r"C:/Users/Richard/Documents/Practical Physics/Experiments/dataset2.CSV", delimiter=",", skiprows=1)
+params = {
+   'axes.labelsize': 18,
+   'font.size': 18,
+   'font.family': 'sans-serif', 
+   'font.serif': 'Arial', 
+   'legend.fontsize': 18,
+   'xtick.labelsize': 16,
+   'ytick.labelsize': 16, 
+} 
+time = augdata[:,0] +0.00250
+volt = augdata[:,1]
+logvolt = np.log(volt)
+plt.xlabel("Time(t)")
+plt.ylabel("Ln(V)")
+plt.grid()
+plt.title("Determining Capacitance using Method 2") 
+plt.errorbar(time, logvolt, mew=1, ms=1, capsize=1)
+
+
+fit_logvolt,cov_logvolt = sp.polyfit(time,logvolt,1,cov=True)
+plogvolt=sp.poly1d(fit_logvolt)
+plt.plot(time,plogvolt(time))
+print('logvolt coefficients')
+print(fit_logvolt)
+print('covariance matrix')
+print(cov_logvolt)
+sig_0 = sp.sqrt(cov_logvolt[0,0]) 
+sig_1 = sp.sqrt(cov_logvolt[1,1]) 
+
+print('Slope = %.3e +/- %.3e' %(fit_logvolt[0],sig_0))
+print('Intercept = %.3e +/- %.3e' %(fit_logvolt[1],sig_1))
