@@ -18,7 +18,6 @@ plt.xlabel("Time(t)")
 plt.ylabel("Ln(V)")
 plt.grid()
 plt.title("Determining Capacitance using Method 2") 
-plt.errorbar(time, logvolt, mew=1, ms=1, capsize=1)
 
 
 fit_logvolt,cov_logvolt = sp.polyfit(time,logvolt,1,cov=True)
