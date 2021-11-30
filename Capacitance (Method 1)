@@ -1,33 +1,37 @@
-#This code was written in collaboration with my lab partner Muhammed (Yusuf) Islam (This disclaimer does not include the section at the bottom which has been referenced with a link)
 import numpy as np
 import matplotlib.pyplot as plt
+import scipy as sp
 Method_1_Data = np.loadtxt(r"C:/Users/Richard/Documents/Practical Physics/Experiments/WFM01.CSV", delimiter=",", skiprows=1)
 for i in range(len(Method_1_Data)):
-    Method_1_Data[i,0] = Method_1_Data[i,0] + 60
-
-Method_1_Data[:,1] = np.log(Method_1_Data[:,1])
-Method1_Fit, Method1_Cov = np.polyfit(Method_1_Data[:,0], Method_1_Data[:,1],1,cov=True)
-Method1_Line = np.poly1d(Method1_Fit)
-plt.grid()
-plt.xlabel("Time (t)") 
-plt.ylabel("Ln(V)") 
-plt.title("Plot of Voltage Discharge of a Capacitor") 
-plt.plot(Method_1_Data[:,0], Method_1_Data[:,1])
-plt.plot(Method_1_Data[:,0], Method1_Line(Method_1_Data[:,0]))
+   Method_1_Data[i,0] = Method_1_Data[i,0] + 60
+time = Method_1_Data[:,0]
+data = np.log(Method_1_Data[:,1])
 
 
-#%% Note: The below code was taken from https://pythonguides.com/matplotlib-best-fit-line/
-#It was solely used to obtain the parameters of the straight line, not for actual plotting purposes. The plot used in the lab book is the one above.
+params = {
+   'axes.labelsize': 18,
+   'font.size': 18,
+   'font.family': 'sans-serif', 
+   'font.serif': 'Arial', 
+   'legend.fontsize': 18,
+   'xtick.labelsize': 16,
+   'ytick.labelsize': 16, 
+} 
+plt.xlabel("Time (s)")
+plt.ylabel("ln(V)")
+plt.title("Method 1: Plot of Capacitance Discharge")
+fit_data,cov_data = sp.polyfit(time,data,1,cov=True)
+pmethod1=sp.poly1d(fit_data)
+plt.plot(time,pmethod1(time))
+plt.plot(time, data, color="purple")
+plt.plot(time, pmethod1(time), color ="yellow")
+print("Gradient and Intercept")
+print(fit_data)
+print('covariance matrix')
+print(cov_data)
+sig_2 = sp.sqrt(cov_data[0,0]) 
+sig_3 = sp.sqrt(cov_data[1,1]) 
 
-x = Method_1_Data[:, 0].reshape(Method_1_Data.shape[0], 1)
-X = np.append(x, np.ones((Method_1_Data.shape[0], 1)), axis=1)
-y = Method_1_Data[:, 1].reshape(Method_1_Data.shape[0], 1)
-theta = np.linalg.inv(X.T.dot(X)).dot(X.T).dot(y)
-print(f'The parameters of the line: {theta}')
-y_line = X.dot(theta)
-plt.scatter(x, y)
-plt.plot(x, y_line, 'r')
-plt.title('Best fit line using regression method')
-plt.xlabel('x-axis')
-plt.ylabel('y-axis')
-plt.show()
+print('Slope = %.3e +/- %.3e' %(fit_data[0],sig_2))
+print('Intercept = %.3e +/- %.3e' %(fit_data[1],sig_3))
+     
