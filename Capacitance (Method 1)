@@ -2,13 +2,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 Method_1_Data = np.loadtxt(r"C:/Users/Richard/Documents/Practical Physics/Experiments/WFM01.CSV", delimiter=",", skiprows=1)
-Method_2_Data = np.loadtxt(r"C:/Users/Richard/Documents/Practical Physics/Experiments/WFM02.CSV", delimiter=",", skiprows=1)
-Augdata = np.loadtxt(r"C:/Users/Richard/Documents/Practical Physics/Experiments/dataset2.CSV", delimiter=",", skiprows=1)
 for i in range(len(Method_1_Data)):
     Method_1_Data[i,0] = Method_1_Data[i,0] + 60
-for i in range(len(Augdata)):
-    Augdata[i,0] = Augdata[i,0] + 0.0075
-#%%
+
 Method_1_Data[:,1] = np.log(Method_1_Data[:,1])
 Method1_Fit, Method1_Cov = np.polyfit(Method_1_Data[:,0], Method_1_Data[:,1],1,cov=True)
 Method1_Line = np.poly1d(Method1_Fit)
@@ -18,6 +14,8 @@ plt.ylabel("Ln(V)")
 plt.title("Plot of Voltage Discharge of a Capacitor") 
 plt.plot(Method_1_Data[:,0], Method_1_Data[:,1])
 plt.plot(Method_1_Data[:,0], Method1_Line(Method_1_Data[:,0]))
+
+
 #%% Note: The below code was taken from https://pythonguides.com/matplotlib-best-fit-line/
 #It was solely used to obtain the parameters of the straight line, not for actual plotting purposes. The plot used in the lab book is the one above.
 
