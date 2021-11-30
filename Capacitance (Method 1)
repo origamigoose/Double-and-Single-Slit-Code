@@ -8,7 +8,6 @@ for i in range(len(Method_1_Data)):
     Method_1_Data[i,0] = Method_1_Data[i,0] + 60
 for i in range(len(Augdata)):
     Augdata[i,0] = Augdata[i,0] + 0.0075
-
 #%%
 Method_1_Data[:,1] = np.log(Method_1_Data[:,1])
 Method1_Fit, Method1_Cov = np.polyfit(Method_1_Data[:,0], Method_1_Data[:,1],1,cov=True)
@@ -19,15 +18,8 @@ plt.ylabel("Ln(V)")
 plt.title("Plot of Voltage Discharge of a Capacitor") 
 plt.plot(Method_1_Data[:,0], Method_1_Data[:,1])
 plt.plot(Method_1_Data[:,0], Method1_Line(Method_1_Data[:,0]))
-#y_line = X.dot(theta)
-#print(f'The parameters of the line: {theta}')
-
-plt.plot(Augdata[:,0], Augdata[:,1])
-plt.plot(Augdata[:,0], Augdata_Line(Augdata[:,0]))
-
 #%% Note: The below code was taken from https://pythonguides.com/matplotlib-best-fit-line/
 #It was solely used to obtain the parameters of the straight line, not for actual plotting purposes. The plot used in the lab book is the one above.
-
 
 x = Method_1_Data[:, 0].reshape(Method_1_Data.shape[0], 1)
 X = np.append(x, np.ones((Method_1_Data.shape[0], 1)), axis=1)
