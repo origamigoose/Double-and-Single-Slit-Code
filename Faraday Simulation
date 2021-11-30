@@ -1,0 +1,26 @@
+import numpy as np
+import matplotlib.pyplot as plt
+def faraday(Vp,Np,Ns,w,t,R):
+    faraday = ((-1)*Vp*Np*np.sin(w*t))/(Ns*R)
+    return faraday
+
+a = np.linspace(0, 2*np.pi, 200)
+
+f1 = faraday(40,20,30,2*np.pi,a,5)
+f2 = faraday(40,20, 50, 2*np.pi,a,5)
+params = {
+   'axes.labelsize': 18,
+   'font.size': 18,
+   'font.family': 'sans-serif', 
+   'font.serif': 'Arial', 
+   'legend.fontsize': 18,
+   'xtick.labelsize': 16,
+   'ytick.labelsize': 16, 
+} 
+plt.grid()
+plt.xlabel("Time (s)")
+plt.ylabel("Ouput Current in Seconday Coil")
+plt.title("Plot of Current vs Time in a transformer")
+plt.plot(a,f1)
+plt.plot(a,f2)
+plt.show
