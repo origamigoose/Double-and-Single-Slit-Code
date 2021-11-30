@@ -7,7 +7,7 @@ for i in range(len(Method_1_Data)):
 time = Method_1_Data[:,0]
 data = np.log(Method_1_Data[:,1])
 
-
+plt.grid()
 params = {
    'axes.labelsize': 18,
    'font.size': 18,
