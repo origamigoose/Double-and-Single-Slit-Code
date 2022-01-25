@@ -1,0 +1,121 @@
+#%%
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy as sp
+m1 = np.array([0,1,2,-1,-2,-3])
+m2 = np.array([0,1,2,-1,-2,-3,-4])
+m3 = np.array([(5/36),(3/16),(21/100)])
+d = (1/(300*10**(3))) 
+redlines = d*np.array([0,0.186809811,0.386174381,-0.214735327,-0.40806491,-0.45580384])                                     
+bluelines = d*np.array([0,0.137156413,0.28596712,-0.144068354,-0.299318357,-0.44359267])
+purplelines = d*np.array([0,0.11493715,0.254320635,-0.123601477,-0.27647611,-0.39126659,-0.521257898])
+wavelengths = np.array([1/(5.88771980e-07),1/(4.86033852e-07),1/(4.30379007e-07)])
+errors_redlight = np.array([2.90888E-09,2.85767E-09,2.68323E-09,2.84102E-09,2.65567E-09,2.58914E-09])
+errors_bluelight = np.array([2.90888E-09,2.88139E-09,2.78741E-09,2.87854E-09,2.77552E-09,2.60702E-09])
+errors_purplelight = np.array([2.90888E-09,2.8896E-09,2.81324E-09,2.88658E-09,2.7955E-09,2.67698E-09,2.48244E-09])
+errors_wavelengths = np.array([4.183e-08,3.794e-09,5.597e-09])
+#errors_wavelengths = np.array([7.07e05,7.808e04,1.30035e05])
+params = {
+   'axes.labelsize': 18,
+   'font.size': 18,
+   'font.family': 'sans-serif', 
+   'font.serif': 'Arial', 
+   'legend.fontsize': 18,
+   'xtick.labelsize': 16,
+   'ytick.labelsize': 16, 
+} 
+#%% Red Light
+
+plt.xlabel("Order of maxima")
+plt.ylabel("dsin(theta) (m^-1)")
+print('Fit polynomial')
+plt.grid()
+plt.title("Red Light Spectral data") 
+
+
+plt.errorbar(m1,redlines,xerr=errors_redlight,fmt='o', mew=2, ms=3, capsize=10)
+
+fit_redlines,cov_redlines = sp.polyfit(m1,redlines,1,w=1/(errors_redlight),cov=True)
+predlines=sp.poly1d(fit_redlines)
+plt.plot(m1,predlines(m1))
+print('Gradient and Intercept for red light')
+print(fit_redlines)
+print('covariance matrix')
+print(cov_redlines)
+sig_0 = sp.sqrt(cov_redlines[0,0]) 
+sig_1 = sp.sqrt(cov_redlines[1,1]) 
+
+print('Slope = %.8e +/- %.8e' %(fit_redlines[0],sig_0))
+print('Intercept = %.8e +/- %.8e' %(fit_redlines[1],sig_1))
+#%% Blue Light
+
+plt.xlabel("Order of maxima")
+plt.ylabel("dsin(theta) (m^-1)")
+print('Fit polynomial')
+plt.grid()
+plt.title("Blue Light Spectral data") 
+
+
+plt.errorbar(m1,bluelines,xerr=errors_bluelight,fmt='o', mew=2, ms=3, capsize=10)
+
+fit_bluelines,cov_bluelines = sp.polyfit(m1,bluelines,1,w=1/(errors_bluelight),cov=True)
+pbluelines=sp.poly1d(fit_bluelines)
+plt.plot(m1,pbluelines(m1))
+print('Gradient and Intercept for Blue Light')
+print(fit_bluelines)
+print('covariance matrix')
+print(cov_bluelines)
+sig_0 = sp.sqrt(cov_bluelines[0,0]) 
+sig_1 = sp.sqrt(cov_bluelines[1,1]) 
+
+print('Slope = %.8e +/- %.8e' %(fit_bluelines[0],sig_0))
+print('Intercept = %.8e +/- %.8e' %(fit_bluelines[1],sig_1))
+
+#%% Purple Light
+
+plt.xlabel("Order of maxima")
+plt.ylabel("dsin(theta) (m^-1)")
+print('Fit polynomial')
+plt.grid()
+plt.title("Purple Light Spectral data") 
+
+
+plt.errorbar(m2,purplelines,xerr=errors_purplelight,fmt='o', mew=2, ms=3, capsize=10)
+
+fit_purplelines,cov_purplelines = sp.polyfit(m2,purplelines,1,w=1/(errors_purplelight),cov=True)
+ppurplelines=sp.poly1d(fit_purplelines)
+plt.plot(m2,ppurplelines(m2))
+print('Gradient and Intercept for purple Light')
+print(fit_purplelines)
+print('covariance matrix')
+print(cov_purplelines)
+sig_0 = sp.sqrt(cov_purplelines[0,0]) 
+sig_1 = sp.sqrt(cov_purplelines[1,1]) 
+
+print('Slope = %.8e +/- %.8e' %(fit_purplelines[0],sig_0))
+print('Intercept = %.8e +/- %.8e' %(fit_purplelines[1],sig_1))
+#%%Rydberg
+plt.xlabel("(n^-2)-(p^-2)")
+plt.ylabel("1/lambda (m^-1)")
+print('Fit polynomial')
+plt.grid()
+plt.title("Rydberg Relation For Hydrogen Balmer Lines") 
+
+
+plt.errorbar(m3,wavelengths,xerr=errors_wavelengths,fmt='o', mew=2, ms=3, capsize=10)
+
+fit_wavelengths,cov_wavelengths = sp.polyfit(m3,wavelengths,1, w=(1/errors_wavelengths),cov=True)
+pwavelengths=sp.poly1d(fit_wavelengths)
+plt.plot(m3,pwavelengths(m3))
+print('Gradient and Intercept for Rydberg')
+print(fit_wavelengths)
+print('covariance matrix')
+print(cov_wavelengths)
+sig_0 = sp.sqrt(cov_wavelengths[0,0]) 
+sig_1 = sp.sqrt(cov_wavelengths[1,1]) 
+
+print('Slope = %.8e +/- %.8e' %(fit_wavelengths[0],sig_0))
+print('Intercept = %.8e +/- %.8e' %(fit_wavelengths[1],sig_1))
+
+
+
