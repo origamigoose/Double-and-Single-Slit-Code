@@ -1,0 +1,29 @@
+import numpy as np
+import scipy as sp
+import matplotlib.pyplot as plt
+import scipy.optimize as sciop
+amp = np.array([1.75E-01,3.49E-01,5.24E-01])
+period = np.array([1.126486876,1.134792503,1.143493355])
+amperror = np.array([0.0523599,0.0523599,0.0523599])
+perioderror = np.array([1.20E-07,1.17E-05,1.73E-05])
+plt.errorbar(amp,period, xerr=amperror, yerr=perioderror, fmt='o', capsize=2)
+plt.grid()
+plt.xlabel("Amplitude (radians)")
+plt.ylabel("Period (s)")
+
+a = np.linspace(0,1,200)
+periodcov=np.polyfit(amp,period,deg=2,cov=True)
+
+alpha=periodcov[0]
+beta=periodcov[1]
+gamma=periodcov[2]
+
+quadraticfit = a*np.square(a) + beta*np.array(a) + gamma
+plt.plot(a,quadraticfit)
+#%%
+#plt.figure(dpi=1500)
+error = np.diag(periodcov)
+print(error)
+print("T0 is equal to", gamma, "+/-" np.sqrt(error[2]))
+betaerror = np.sqrt((((np.sqrt(error)))))
+
