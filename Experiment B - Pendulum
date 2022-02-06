@@ -1,0 +1,40 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy as sp
+m1 = np.array([8.45,19.3,2.7,1.13])
+mgmi = np.array([-0.015606736,-0.012420092,-0.018984497,-0.02356373])                                  
+errors_mgmi = np.array([1.19678E-07,1.56514E-06,2.69278E-06,4.68478E-06])
+
+
+params = {
+   'axes.labelsize': 18,
+   'font.size': 18,
+   'font.family': 'sans-serif', 
+   'font.serif': 'Arial', 
+   'legend.fontsize': 18,
+   'xtick.labelsize': 16,
+   'ytick.labelsize': 16, 
+} 
+#%% Red Light
+
+plt.xlabel("Density (g/cm^3)")
+plt.ylabel("mi/mg-1")
+print('Fit polynomial')
+plt.grid()
+plt.title("mg/mi-1 compared to the density") 
+
+
+plt.errorbar(m1,mgmi,xerr=errors_mgmi,fmt='o', mew=2, ms=3, capsize=10)
+
+fit_mgmi,cov_mgmi = sp.polyfit(m1,mgmi,1,cov=True)
+pmgmi=sp.poly1d(fit_mgmi)
+plt.plot(m1,pmgmi(m1))
+print('Gradient and Intercept for The fitted line')
+print(fit_mgmi)
+print('covariance matrix')
+print(cov_mgmi)
+sig_0 = sp.sqrt(cov_mgmi[0,0]) 
+sig_1 = sp.sqrt(cov_mgmi[1,1]) 
+
+print('Slope = %.8e +/- %.8e' %(fit_mgmi[0],sig_0))
+print('Intercept = %.8e +/- %.8e' %(fit_mgmi[1],sig_1))
